@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 # =============================================================================
 # Script : LibreStorien_Installation.sh
 # Auteur : DURAND Corentin
