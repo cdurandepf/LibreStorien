@@ -12,7 +12,7 @@ L’objectif est de faciliter les tests de modèles IA (comme `llama3`, `mistral
 
 ## 📁 Contenu des scripts
 
-### 1. `LibreStorien_Installation.sh`
+### 1. `LibreStorien_Initialisation.sh`
 
 Ce script prépare l’environnement nécessaire :
 
