@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# Script : LibreStorien_Installation.sh
+# Script : LibreStorien_Initialisation.sh
 # Auteur : DURAND Corentin
 # Date   : 10/04/2025
 #
@@ -28,7 +28,7 @@
 # Vérifier si le répertoire "Prompt" existe
 
 echo -e "\n"
-echo "Demarage de l'instalation"
+echo "Démarage de l'instalation"
 echo -e "\n"
 
 # Vérifie si jq est installé
@@ -158,5 +158,5 @@ else
 fi
 
 echo -e "\n"
-echo "L'installation a été réussi avec succes"
+echo "L'installation a été réussi avec succès"
 echo -e "\n"
