@@ -1,0 +1,30 @@
+Explique le principe des intérêts composés à un élève de primaire.
+Explique le même principe à un étudiant en master de finance.
+Donne une définition accessible du réchauffement climatique.
+Donne une explication technique du même sujet pour un climatologue.
+Décris les bases de la blockchain à quelqu’un qui n’a jamais entendu ce mot.
+Résume ce texte sous forme de tweet.
+Réécris cette information comme un post LinkedIn professionnel.
+Transforme ce contenu en script pour une vidéo TikTok.
+Présente cette info dans une infographie (description textuelle).
+Donne-moi une version "pitch elevator" de cette idée.
+Explique les enjeux de l’intelligence artificielle à un décideur politique.
+Fais une synthèse pour un comité éthique.
+Rends cette information accessible à des personnes âgées peu technophiles.
+Présente ce sujet à un public d’enfants de 8 ans.
+Prépare une introduction captivante pour un ado qui s’ennuie.
+Rédige une réponse empathique à un utilisateur en détresse.
+Adopte un ton rassurant pour parler d’un cancer détecté tôt.
+Sois motivant en parlant des difficultés liées à l’apprentissage du code.
+Adopte un ton neutre pour présenter les faits d’un conflit politique.
+Fais une réponse pleine d’enthousiasme à la question "Dois-je apprendre Python ?"
+Présente un sujet scientifique dans un style humoristique.
+Utilise un ton poétique pour parler de l’eau.
+Rédige une réponse dans un ton cynique et désabusé.
+Reprends cette explication dans un ton académique.
+Refais la même réponse mais avec un ton familier.
+Sois diplomatique dans une réponse à un utilisateur agressif.
+Adopte un ton ferme mais respectueux pour recadrer une demande déplacée.
+Sois calme et professionnel dans une situation de désaccord.
+Imite le style d’un conte pour enfants en parlant de la gravité.
+Utilise l’ironie pour répondre à "À quoi sert encore l’école aujourd’hui ?"
