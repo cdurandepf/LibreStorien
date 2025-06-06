@@ -26,37 +26,71 @@
 #   - Toutes les réponses sont ajoutées dans le répertoire ./DATA_Rep
 #     au nom que l'utilisateur rentre.
 # =============================================================================
-
+#ceci est la ligne 29
 echo -e "\n"
 
+OLLAMA_IP="10.3.50.48"
+MODEL_LIST_FILENAME=".tmp/installed_models.json"
+: > MODEL_LIST_FILENAME
+
+GET_MODEL_LIST="curl -s http://${OLLAMA_IP}:11434/api/tags | jq  > $MODEL_LIST_FILENAME"
+TEST_MODEL_LIST="jq --arg MODEL ${MODEL} '.models[] | select(.name == $MODEL)' $MODEL_LIST_FILENAME"
+LIKE_MODEL_LIST="jq --arg MODEL ${MODEL} '.models[] | select(.name | contains ($MODEL)) | .name' $MODEL_LIST_FILENAME"
+PULL_MODEL="curl -s http://${OLLAMA_IP}:11434/api/pull -d '{\"model\": \"${MODEL}\"}'"
+
 while true; do # Demande et vérifie que le modèle est bien installé
-    read -p "Quel est le modèle à tester ? : " Model
+    read -p "Quel est le modèle à tester ? : " MODEL
+
+    #Obtient la liste  des modèle et la compare avec le modèle choisi
+    GET_MODEL_LIST=$(curl -s http://${OLLAMA_IP}:11434/api/tags | jq  > $MODEL_LIST_FILENAME)
+    MODEL_FOUND=$(jq --arg MODEL "$MODEL" -r '.models[] | select(.name == $MODEL) | .name' "$MODEL_LIST_FILENAME")
     # Vérifie si le modèle existe déjà dans la liste d'Ollama
-    if ollama list | grep -q "$Model"; then
-        echo "Modèle '$Model' trouvé localement."
+
+    if  [ -n "$MODEL_FOUND" ]; then
+        echo "Modèle '$MODEL' trouvé localement."
         break
     else
-        echo " Le modèle '$Model' n'est pas installé."
-        read -p "Voulez-vous le télécharger maintenant ? (Y/N) : " rep
-        case "$rep" in
-            [Yy])
-                echo "Téléchargement de '$Model'..."
-                ollama pull "$Model"
-                # On revérifie qu'il a bien été installé
-                if ollama list | grep -q "^$Model[[:space:]]"; then
-                    echo "Modèle téléchargé avec succès."
-                    break
-                else
-                    echo "Échec du téléchargement. Veuillez réessayer."
-                fi
-                ;;
-            [Nn])
-                echo "Veuillez entrer un autre modèle."
-                ;;
-            *)
-                echo "Réponse invalide. Répondez par Y ou N."
-                ;;
-        esac
+        SIMILAR_MODEL_FOUND=$(eval "$LIKE_MODEL_LIST")
+        if [ -n "$SIMILAR_MODEL_FOUND" ]; then
+                read -p "Trouvés des modèles similaires. Vouliez-vous dire : $SIMILAR_MODEL_FOUND ? (Y/N)" rep
+        	case "$rep" in
+            	    [Yy])
+			exit 0
+                        ;;
+                    [Nn])
+			break
+                        ;;
+            	    *)
+		        echo "Réponse invalide. Répondez par Y ou N."
+                	;;
+        	esac
+        else
+            echo " Le modèle '$MODEL' n'est pas installé."
+            read -p "Voulez-vous le télécharger maintenant ? (Y/N) : " rep
+            case "$rep" in
+                [Yy])
+                    echo "Téléchargement de '$MODEL'..."
+                    PULL__MODEL=$(curl -s http://${OLLAMA_IP}:11434/api/pull -d '{\"model\": \"${MODEL}\"}')
+                    # On revérifie qu'il a bien été installé
+                    GET_MODEL_LIST=$(curl -s http://${OLLAMA_IP}:11434/api/tags | jq  > $MODEL_LIST_FILENAME)
+                    MODEL_FOUND=$(jq --arg MODEL "$MODEL" -r '.models[] | select(.name == $MODEL) | .name' "$MODEL_LIST_FILENAME")
+
+                    if  [ -n "$MODEL_FOUND" ]; then
+                        echo "Modèle téléchargé avec succès."
+                        break
+                    else
+                        echo "Échec du téléchargement. Veuillez réessayer."
+                    fi
+                    ;;
+                [Nn])
+                    echo "Veuillez entrer un autre modèle."
+                    exit 0
+		    ;;
+                *)
+                    echo "Réponse invalide. Répondez par Y ou N."
+                    ;;
+            esac
+        fi
     fi
 done
 
@@ -75,6 +109,7 @@ while true; do # Vérifie que le fichier de prompt existe et est bien un .txt
         break
     fi
 done
+
 echo -e "\n"
 
 while true; do # Demande un nom de fichier de sauvegarde valide
@@ -82,12 +117,12 @@ while true; do # Demande un nom de fichier de sauvegarde valide
     read -p "Nom du fichier de sauvegarde des réponses : " Save_temp
     if [[ -z "$Save_temp" ]]; then
         echo "Le nom de fichier ne peut pas être vide."
-    elif [[ "$Save_temp" != *.txt ]]; then
-        echo "Le fichier de sauvegarde doit avoir l'extension .txt"
+    elif [[ "$Save_temp" != *.json ]]; then
+        echo "Le fichier de sauvegarde doit avoir l'extension .json"
     elif [[ "$Save_temp" =~ $caracteres_invalides ]]; then
         echo "Le nom de fichier contient des caractères non valides."
     else
-        Save="./DATA_Rep/$Save_temp"
+	Save="./DATA_Rep/$Save_temp"
         echo "Fichier de sauvegarde : $Save_temp"
         break
     fi
@@ -95,11 +130,11 @@ done
 
 echo -e "\n"
 
-while true; do #Demande à l'utilisateur si il veut réisignaliser le fichier de sauvegarde
-    read -p "Voulez-vous effacer le fichier $Save ? [Y/N] : " reponse
+while true; do #Demande à l'utilisateur si il veut réinitialiser le fichier de sauvegarde
+    read -p "Voulez-vous effacer le contenu du fichier $Save ? [Y/N] : " reponse
     case "$reponse" in
         [Yy])
-            rm -f "$Save"
+            : > "$Save"
             echo "Fichier supprimé."
             break
             ;;
@@ -121,22 +156,40 @@ echo -e "\n"
 
 echo -e "\n" >> $Save
 echo "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"\
-                 >> $Save
+		 >> $Save
 echo "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"\
-                 >> $Save
+		 >> $Save
 echo "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"\
-                 >> $Save
+		 >> $Save
 echo -e "\n" >> $Save
+echo "Modèle : $Model" >> $Save
+echo "Prompt : $Fichier" >> $Save
+echo "Ficher cible : $Save_temp" >> $Save
+
+echo "Modèle : $Model"
+echo "Prompt : $Fichier"
+echo "Ficher cible : $Save_temp"
+
+echo -e "\n"
 echo -e "-----------------------------------------------------------------------------------------------------------------------------------------\n"\
-                 >> $Save
+		 >> $Save
 
 while IFS= read -r ligne; do #Boucle while qui parcours ligne par ligne le document dans le quel ce trouve les prompte de teste
+    echo "==== Réponse pour : $ligne ====" >> $Save #Enregistre la question posé
     echo "==== Réponse pour : $ligne ===="
-    echo "$ligne" | ollama run "$Model" >> $Save #Génere la reponse du modèle et l'enregistre dans un doc nommé Rep_a_analys.txt
+    #Génere la reponse du modèle et l'enregistre dans un doc
+
+    #curl -s "http://${OLLAMA_IP}:11434/api/generate" -H "Content-Type: application/json" -d "{\"model\": \"$MODEL\", \"prompt\": \"$ligne\"}" | jq -r '.response' | tr -d '\n' >> $Save
+    json=$(jq -n --arg model "$MODEL" --arg prompt "$ligne" '{model: $model, prompt: $prompt}')
+    curl -s "http://${OLLAMA_IP}:11434/api/generate" -H "Content-Type: application/json" -d "$json" \
+     							 | jq -r '.response' | tr -d '\n' >> $Save
+
     echo -e "-----------------------------------------------------------------------------------------------------------------------------------------\n"\
-                 >> $Save
-    echo "La génération à été faite avec sucess"
+		 >> $Save
+
+    echo -e "\nLa génération à été faite avec sucess"
     echo -e "\n"
+
 done < "$Question" #Sécifie que l'on utilise le document question
 
 echo "###############################################################################################"
