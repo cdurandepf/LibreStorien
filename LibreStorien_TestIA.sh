@@ -52,7 +52,7 @@ while true; do # Demande et vérifie que le modèle est bien installé
     else
         SIMILAR_MODEL_FOUND=$(eval "$LIKE_MODEL_LIST")
         if [ -n "$SIMILAR_MODEL_FOUND" ]; then
-                read -p "Trouvés des modèles similaires. Vouliez-vous dire : $SIMILAR_MODEL_FOUND ? (Y/N)" rep
+                read -p "Des modèles similaires ont été trouvés. Voulez-vous dire : $SIMILAR_MODEL_FOUND ? (Y/N)" rep
         	case "$rep" in
             	    [Yy])
 			exit 0
@@ -130,7 +130,7 @@ done
 
 echo -e "\n"
 
-while true; do #Demande à l'utilisateur si il veut réinitialiser le fichier de sauvegarde
+while true; do #Demande à l'utilisateur s'il veut réinitialiser le fichier de sauvegarde
     read -p "Voulez-vous effacer le contenu du fichier $Save ? [Y/N] : " reponse
     case "$reponse" in
         [Yy])
@@ -174,10 +174,10 @@ echo -e "\n"
 echo -e "-----------------------------------------------------------------------------------------------------------------------------------------\n"\
 		 >> $Save
 
-while IFS= read -r ligne; do #Boucle while qui parcours ligne par ligne le document dans le quel ce trouve les prompte de teste
+while IFS= read -r ligne; do #Boucle while qui parcours ligne par ligne le document dans lequel se trouve les prompts de test
     echo "==== Réponse pour : $ligne ====" >> $Save #Enregistre la question posé
     echo "==== Réponse pour : $ligne ===="
-    #Génere la reponse du modèle et l'enregistre dans un doc
+    #Génere la réponse du modèle et l'enregistre dans un document
 
     #curl -s "http://${OLLAMA_IP}:11434/api/generate" -H "Content-Type: application/json" -d "{\"model\": \"$MODEL\", \"prompt\": \"$ligne\"}" | jq -r '.response' | tr -d '\n' >> $Save
     json=$(jq -n --arg model "$MODEL" --arg prompt "$ligne" '{model: $model, prompt: $prompt}')
@@ -187,11 +187,11 @@ while IFS= read -r ligne; do #Boucle while qui parcours ligne par ligne le docum
     echo -e "-----------------------------------------------------------------------------------------------------------------------------------------\n"\
 		 >> $Save
 
-    echo -e "\nLa génération à été faite avec sucess"
+    echo -e "\nLa génération a été faite avec sucèss"
     echo -e "\n"
 
-done < "$Question" #Sécifie que l'on utilise le document question
+done < "$Question" #Spécifie que l'on utilise le document question
 
 echo "###############################################################################################"
-echo -e "\nLe Test à été effectuer avec sucess"
+echo -e "\nLe Test a été effectué avec sucèss"
 echo -e "\n"
