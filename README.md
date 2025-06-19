@@ -1,8 +1,14 @@
-# LibreStorien - Scripts d'Installation et de Test de Modèles IA (Ollama)
+# LibreStorien - Test de Grand Modèle de Langage 
 
 ## 📦 Présentation
 
-**LibreStorien** est un ensemble de scripts bash conçus pour :
+**LibreStorien** est un projet permettant de tester des GML sur différents critères prédéfinis. Il s'inscrit dans un projet proposé par API et Montpel'Libre. 
+
+Le test des GML peut s'effectuer en local ou par API. 
+
+# Test en Local
+
+Dans ce répositoire vous trouvez des scripts permettant de :
 - Préparer un environnement de test pour des modèles d’IA locaux via **Ollama**
 - Lancer automatiquement des tests à partir de fichiers contenant des prompts
 
@@ -79,7 +85,7 @@ Quel est votre animal préféré ?
 D'où venez-vous ?
 Quel est votre plat préféré ?
 ```
-
+Dans le fichier prompt vous trouverez l'intégralité de nos datasets. Ces questions ont été choisies dans des buts d'évaluation précise. Pour plus d'informations vous pouvez-vous référer à notre rapport : . 
 ---
 
 ## 📂 Organisation attendue des fichiers
@@ -103,8 +109,27 @@ LibreStorien/
 - En cas d’erreur de téléchargement du modèle ou problème réseau, relance simplement le script.
 
 ---
+---
+# Test via API 
+
+Pour utiliser notre méthode de test par API, vous avez accès à un fichier **Test_EPF.sh**.
+
+Dans ce fichier vous retrouverez des commande permettant de 'pull' un modèle sur votre serveur. (ligne 34)
+Assurez vous de bien l'avoir installé, le programme ne le fait pas automatiquement pour éviter de surcharger le serveur.
+---
+PULL_MODEL="curl -s http://${OLLAMA_IP}:11434/api/pull -d '{\"model\": \"${MODEL}\"}'"
+---
+
+Vous devez également modifier le fichier, afin de rentrer l'adresse IP de votre serveur **Ollama**. (ligne 20) 
+---
+OLLAMA_IP=
+---
+
+! Pensez à aussi modifier le nom du modèle que vous souhaitez tester ! 
+---
 
 ## ✨ Auteur
 
-**DURAND Corentin**  
+**DURAND Corentin**
+**BROSSE Axelle**
 Date : *Avril 2025*
