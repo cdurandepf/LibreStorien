@@ -46,7 +46,7 @@ Ce script permet de tester un modèle IA local :
    - Le nom du fichier `.txt` de sauvegarde (dans `DATA_Rep/`)
 
 2. Vérifie que :
-   - Le modèle est bien installé (sinon propose de le télécharger)
+   - Le modèle est bien installé (sinon le programme propose de le télécharger)
    - Le fichier de prompt est valide (existant et `.txt`)
    - Le nom du fichier de sauvegarde ne contient pas de caractères interdits
 
