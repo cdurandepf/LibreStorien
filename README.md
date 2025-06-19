@@ -5,7 +5,7 @@
 **LibreStorien** est un projet permettant de tester des GML sur différents critères prédéfinis. Il s'inscrit dans un projet proposé par API et Montpel'Libre. 
 
 Ce travail est sous licence CC-BY-SA.4.0.
-Plus d'informations : https://creativecommons.org/licenses/by-sa/4.0/es/deed.fr
+Plus d'informations : [https://creativecommons.org/licenses/by-sa/4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 
 
 Le test des GML peut s'effectuer en local ou par API. 
