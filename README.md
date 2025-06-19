@@ -116,16 +116,21 @@ Pour utiliser notre méthode de test par API, vous avez accès à un fichier **T
 
 Dans ce fichier vous retrouverez des commande permettant de 'pull' un modèle sur votre serveur. (ligne 34)
 Assurez vous de bien l'avoir installé, le programme ne le fait pas automatiquement pour éviter de surcharger le serveur.
+
 ---
 PULL_MODEL="curl -s http://${OLLAMA_IP}:11434/api/pull -d '{\"model\": \"${MODEL}\"}'"
+
 ---
 
 Vous devez également modifier le fichier, afin de rentrer l'adresse IP de votre serveur **Ollama**. (ligne 20) 
+
 ---
 OLLAMA_IP=
+
 ---
 
 ! Pensez à aussi modifier le nom du modèle que vous souhaitez tester ! 
+
 ---
 
 ## ✨ Auteur
